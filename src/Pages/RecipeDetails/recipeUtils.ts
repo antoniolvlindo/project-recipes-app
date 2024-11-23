@@ -36,7 +36,7 @@ export const fetchRecipeData = async (id: string, type: 'meals' | 'drinks') => {
 export const fetchRecommendations = async (type: 'meals' | 'drinks') => {
   const url = type === 'meals'
     ? 'https://www.themealdb.com/api/json/v1/1/search.php?s='
-    : 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    : 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
 
   const response = await fetch(url);
   if (!response.ok) {
@@ -44,7 +44,7 @@ export const fetchRecommendations = async (type: 'meals' | 'drinks') => {
   }
 
   const data = await response.json();
-  return type === 'meals' ? data.meals : data.drinks;
+  return type === 'meals' ? data.meals : [data.drinks[0]]; // Retorna um array com a bebida aleatória
 };
 
 export const transformRecipeData = (recipeData: any): Recipe => {
